@@ -11,10 +11,12 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES += main.cpp \
-    serialportwriter.cpp
+    serialportwriter.cpp \
+    message.cpp
 
 HEADERS += \
-    serialportwriter.h
+    serialportwriter.h \
+    message.h
 
 DISTFILES += \
     config/write.ini

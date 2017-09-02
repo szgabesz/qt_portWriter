@@ -1,7 +1,10 @@
 #include <QCoreApplication>
-#include "serialportwriter.h"
 #include <QTextCodec>
 #include <QSettings>
+#include <QObject>
+
+#include "serialportwriter.h"
+#include "message.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,17 +20,23 @@ int main(int argc, char *argv[])
 
     SerialPortWriter* spw = new SerialPortWriter(portName, baudRate, parity, stopBit, flowControl);
 
+    Message* msg = new Message("msg.txt");
+
+    QObject::connect(msg, SIGNAL(readedLine(QByteArray)), spw, SLOT(writeData(QByteArray)));
     bool notexit = true;
-    do {
-        QTextStream stream(stdin);
-        QString line = stream.readLine();
-        if (line != "exit") {
-            QByteArray byteMsg = line.toUtf8();
-            spw->writeData(byteMsg);
-        } else {
-            notexit = false;
-        }
-    } while (notexit);
+        do {
+            qDebug() << "Please press any buton if you want to re send the messages. (You can exit wih 'exit' message)";
+            QTextStream stream(stdin);
+            QString line = stream.readLine();
+
+            if (line != "exit") {
+
+                msg->startRead();
+            } else {
+                notexit = false;
+            }
+        } while (notexit);
+
 
     return a.exec();
 }

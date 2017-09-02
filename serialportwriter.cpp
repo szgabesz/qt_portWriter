@@ -15,7 +15,6 @@ SerialPortWriter::SerialPortWriter(QString portName, int baudRate, QString parit
     setParity(parity);
     setStopBit(stopBit);
     setFlowControl(flowControl);
-
 }
 
 void SerialPortWriter::setStopBit(QString stopBit)
@@ -111,10 +110,10 @@ void SerialPortWriter::setBaudRate(int baudRate)
     }
 }
 
-void SerialPortWriter::writeData(const QByteArray &msg)
+void SerialPortWriter::writeData(QByteArray msg)
 {
     if (serial->open(QIODevice::WriteOnly)) {
-        if (QDEBUG) qDebug() << "Connected";
+        if (QDEBUG) qDebug() << "send message: " << msg;
         serial->write(msg);
         if (QDEBUG) qDebug() << "wait for written";
         serial->waitForBytesWritten(10);

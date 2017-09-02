@@ -19,10 +19,10 @@ private:
 public:
     explicit SerialPortWriter(QString portName, int baudRate, QString parity, QString stopBit, QString flowControl);
 
-    void writeData(const QByteArray &msg);
 signals:
 
 public slots:
+    void writeData(QByteArray msg);
 };
 
 #endif // SERIALPORTWRITER_H
